@@ -5,6 +5,7 @@ import random, asyncio, json
 token = list(open("token.txt"))[0]
 responses = list(open("8ball.txt"))
 fresponses = list(open("fortune.txt"))
+jokes = list(open("jokes.txt"))
 
 def get_prefix(client, message):
     with open("prefixes.json") as f:
@@ -97,6 +98,10 @@ async def help(ctx):
         name= "-tungsten, -stupid, -tungstenisstupid",
         value= "The one and only... stupid person 😜"
     )
+    e.add_field(name="-prefix, -setprefix, -versaprefix", 
+    value="Change the prefix of the bot. You need to be an admin to do so (take note, peasants)")
+    e.add_field(name="-joke, -tellmeajoke",
+    value="Tells you a joke from a random collection of Tungsten's bad dad jokes.")
     e.set_footer(text="Wow, that was a lot to take in! I hope you remember this lol")
 
     await ctx.author.send(embed=e)
@@ -165,5 +170,13 @@ async def tungsten(ctx):
 @client.command(aliases=["randomguy"])
 async def choose(ctx):
     await ctx.send(f"{random.choice(ctx.guild.members).name}, I choose you!")
+
+@commands.guild_only()
+@client.command(aliases=["tellmeajoke"])
+async def joke(ctx):
+    number = random.randrange(0, len(jokes)-1, 2)
+    await ctx.send(jokes[number])
+    await asyncio.sleep(2)
+    await ctx.send(jokes[number+1])
 
 client.run(token)
