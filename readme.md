@@ -31,8 +31,7 @@ I would recommend saving it to Desktop.
 
 Step 4: Edit the files.
 You can edit bot.py as needed.
-Paste the token in token.txt (replace the text)
-Empty the prefixes.json file.
+You will need to create token.txt, prefixes.json, responses.txt, fresponses.txt and 8ball.txt.
 
 Step 5: Run the bot.
 Go to Command Prompt.
