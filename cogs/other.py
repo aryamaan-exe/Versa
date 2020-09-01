@@ -11,6 +11,7 @@ class Other(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Ready!")
+        await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Tungsten"))
         
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
@@ -104,6 +105,10 @@ class Other(commands.Cog):
         e.add_field(
             name="-msgbar, -messagebar <color>",
             value="Tungsten's favorite function! It shows a bar graph representation of -lb. You can have red, blue etc. as color, but I like to add hex values!"
+        )
+        e.add_field(
+            name="-support <query>",
+            value="Send your questions to the support server"
         )
         e.set_footer(text="Wow, that was a lot to take in! I hope you remember this lol")
 
