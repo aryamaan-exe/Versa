@@ -240,7 +240,7 @@ class Other(commands.Cog):
     @commands.command()
     async def reverse(self, ctx, *, text):
         await ctx.send(text[::-1])
-    
+
     @commands.guild_only()
     @commands.command(aliases=["rpw"])
     async def reverseperword(self, ctx, *, text):
@@ -249,6 +249,48 @@ class Other(commands.Cog):
         for word in words:
             output += word[::-1] + " "
         await ctx.send(f"Flipped: {output[::-1]}\nUnflipped: {output}")
+
+    @commands.guild_only()
+    @commands.command()
+    async def fliptext(self, ctx, *, text):
+        output = ""
+        all_text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=[]\;',./~!@#$%^&*()_+{}|:\"<>?"
+        all_output = "⸮><\":|}{+_()*&^%$#@!~/.ˎ';\][=-0୧8٢მटμƸςƖ`ZYXWVUTƧЯϘꟼOИM⅃ꓘႱIHӘꟻƎꓷƆꓭAzγxwvυɈƨɿpqonmlʞįiʜϱʇǝbɔdɒ"[::-1]
+        for char in text:
+            if char in all_text:
+                output += all_output[all_text.index(char)]
+            else:
+                output += char
+        await ctx.send(output)
+
+    @commands.guild_only()
+    @commands.command()
+    async def lookup(self, ctx, *, query):
+        try:
+            query = int(query)
+            try:
+                is_guild = self.client.get_guild(query)
+                await ctx.send(f"`{query}` is a guild with name {is_guild.name}")
+            except:
+                await ctx.send(f"`{query}` is not a guild")
+                try:
+                    is_channel = self.client.get_channel(query)
+                    channel_guild = is_channel.guild
+                    await ctx.send(f"`{query}` is a channel called `{is_channel.name}` belonging to guild `{channel_guild.name}` with id `{channel_guild.id}`.")
+                except:
+                    await ctx.send(f"`{query}` is not a channel.")
+                    try:
+                        is_user = self.client.get_user(query)
+                        await ctx.send(f"`{query}` is a user called `{is_user.name}#{is_user.discriminator}`.")
+                    except:
+                        await ctx.send(f"`{query}` is not a user.")
+                        try:
+                            is_message = self.client.get_message(query)
+                            await ctx.send(f"`{query}` is a message sent by `{is_message.author.name}#{is_message.author.discriminator}` with content:\n{is_message.content}")
+                        except:
+                            await ctx.send(f"Sorry, could not find `{query}`.")
+        except:
+            await ctx.send("Invalid Query!")
 
 def setup(client):
     client.add_cog(Other(client))
